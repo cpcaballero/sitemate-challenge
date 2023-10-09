@@ -60,9 +60,14 @@ router.delete('/:id', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => { 
   const data = readDataFromFile();
-  const index = data.findIndex((item) => item.id === parseInt(req.params.id));
+  const parsedId = parseInt(req.params.id);
+  const index = data.findIndex((item) => item.id === parsedId);
   if (index !== -1) {
-    data[index] = req.body;
+    data[index] = {
+      id: parsedId, 
+      title: req.body.title,
+      description: req.body.description
+    };
     saveDataToFile(data);
     res.send(req.body);
   } else {
