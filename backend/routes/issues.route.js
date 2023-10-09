@@ -23,14 +23,26 @@ router.get("/", (req, res) => {
     res.json(issues); 
 }); 
 
+router.get("/:id", (req, res) => { 
+  res.json(issues.filter(
+    (issue) => issue.id === parseInt(req.params.id),
+  )); 
+}); 
+
 router.post("/", (req, res, next) => { 
   res.json(req.body);
 }); 
 
 router.delete("/:id", (req, res, next) => {
-  res.json({
-    id: req.params.id,
-  });
+  const parsedId = parseInt(req.params.id);
+  const hasIssue = issues.some(
+    (issue) => issue.id === parsedId,
+  );
+  if (hasIssue) {
+    res.json({
+      id: parsedId,
+    });
+  }
 });
 
 router.put("/", (req, res, next) => { 
