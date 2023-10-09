@@ -16,24 +16,6 @@ const saveDataToFile = (data) => {
   fs.writeFileSync(FILE_NAME, JSON.stringify(data), 'utf8');
 }
 
-const issues = [
-  {
-    id: 1,
-    title: 'title 1',
-    description: 'description 1',
-  },
-  {
-    id: 2,
-    title: 'title 2',
-    description: 'description 2',
-  },
-  {
-    id: 3,
-    title: 'title 3',
-    description: 'description 3',
-  },
-];
-
 router.get('/', (req, res) => { 
   const data = readDataFromFile();
     res.json(data); 
@@ -76,7 +58,7 @@ router.delete('/:id', (req, res, next) => {
   }
 });
 
-router.put('/', (req, res, next) => { 
+router.put('/:id', (req, res, next) => { 
   const data = readDataFromFile();
   const index = data.findIndex((item) => item.id === parseInt(req.params.id));
   if (index !== -1) {

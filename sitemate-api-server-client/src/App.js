@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { IssueList } from './components/IssueList';
 import { useFetchData } from './hooks/useServerData';
-
+import { IssueForm } from './components/IssueForm';
 
 function App() {
   
-  const { data, shouldUpdateList, toggleUpdateList } = useFetchData();
+  const { data, toggleUpdateList } = useFetchData();
 
   return (
     <div className="App">
@@ -14,6 +14,7 @@ function App() {
           Issues
         </p>
       </header>
+      <IssueForm toggleUpdateList={toggleUpdateList} />
       {data && <IssueList issues={data} toggleUpdateList={toggleUpdateList} /> }
     </div>
   );

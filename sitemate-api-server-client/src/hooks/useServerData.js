@@ -5,24 +5,48 @@ const URL = 'http://localhost:4000/issues';
 
 export const useFetchData = () => {
   const [data, setData] = useState([]);
-  const [shouldUpdateList, toggleUpdateList] = useState(true);
+  const [shouldRefreshList, toggleUpdateList] = useState(true);
 
   useEffect(() => {
-    // shouldUpdateList(true);
     fetch(URL)
       .then((response) => response.json())
       .then((json) => {
-        if (shouldUpdateList) {
+        if (shouldRefreshList) {
           setData(json);
         }
       })
       return () => {
         toggleUpdateList(false);
       }
-  }, [shouldUpdateList]);
-  return { data, shouldUpdateList, toggleUpdateList };
+  }, [shouldRefreshList]);
+  return { data, shouldRefreshList, toggleUpdateList };
 }
 
 export const useDeleteData = async (id) => {
-  return await fetch(`${URL}/${id}`, {method: 'DELETE'});
+  return await fetch(
+    `${URL}/${id}`, 
+    { method: 'DELETE' },
+  );
+}
+
+export const useInsertData = async (form) => {
+  return await fetch(
+    `${URL}`, 
+    { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify(form),
+    },
+  );
+}
+
+export const useUpdateData = async (form, id) => {
+  return await fetch(
+    `${URL}/${id}`, 
+    { 
+      method: 'PUT', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify(form),
+    },
+  );
 }
