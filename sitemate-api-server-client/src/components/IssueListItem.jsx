@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-export const IssueListItem = ({issue}) => {
+
+export const IssueListItem = ({issue, onDelete}) => {
   const {
     id,
     title,
@@ -13,7 +14,7 @@ export const IssueListItem = ({issue}) => {
     <td>{description}</td>
     <td>
       <p>Edit</p>
-      <p>Delete</p>
+      <p onClick={() => onDelete(id)}>Delete</p>
     </td>
   </tr>)
 };

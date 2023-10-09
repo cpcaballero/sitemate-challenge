@@ -1,8 +1,15 @@
 import * as React from 'react';
 import { IssueListItem } from './IssueListItem';
+import { useDeleteData } from '../hooks/useServerData';
 
 export const IssueList = (props) => {
-  const { issues } = props;
+  const { issues, toggleUpdateList } = props;
+
+  const useHandleDeleteIssue = (id) => {
+    useDeleteData(id);
+    toggleUpdateList(true);
+  };
+
   return (
     <table border="1">
       <thead>
@@ -19,6 +26,7 @@ export const IssueList = (props) => {
             <IssueListItem 
               key={issue.id} 
               issue={issue} 
+              onDelete={useHandleDeleteIssue}
             />
           ))
         }

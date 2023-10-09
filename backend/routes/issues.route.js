@@ -8,7 +8,7 @@ const readDataFromFile = () => {
     const data = fs.readFileSync(FILE_NAME, 'utf8');
     return JSON.parse(data);
   } catch (error) {
-    console.log(error)
+    return [];
   }
 };
 

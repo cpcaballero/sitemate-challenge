@@ -1,9 +1,12 @@
-import { IssueList } from "./components/IssueList";
-import { useFetchData } from "./hooks/useFetchData";
+import * as React from 'react';
+import { IssueList } from './components/IssueList';
+import { useFetchData } from './hooks/useServerData';
+
 
 function App() {
+  
+  const { data, shouldUpdateList, toggleUpdateList } = useFetchData();
 
-  const issues = useFetchData();
   return (
     <div className="App">
       <header className="App-header">
@@ -11,7 +14,7 @@ function App() {
           Issues
         </p>
       </header>
-      {issues && <IssueList issues={issues} /> }
+      {data && <IssueList issues={data} toggleUpdateList={toggleUpdateList} /> }
     </div>
   );
 }

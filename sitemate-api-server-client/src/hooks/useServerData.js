@@ -5,19 +5,24 @@ const URL = 'http://localhost:4000/issues';
 
 export const useFetchData = () => {
   const [data, setData] = useState([]);
+  const [shouldUpdateList, toggleUpdateList] = useState(true);
 
   useEffect(() => {
-    let ignore = false;
+    // shouldUpdateList(true);
     fetch(URL)
       .then((response) => response.json())
       .then((json) => {
-        if (!ignore) {
+        if (shouldUpdateList) {
           setData(json);
         }
       })
       return () => {
-        ignore = true;
+        toggleUpdateList(false);
       }
-  }, []);
-  return data;
+  }, [shouldUpdateList]);
+  return { data, shouldUpdateList, toggleUpdateList };
+}
+
+export const useDeleteData = async (id) => {
+  return await fetch(`${URL}/${id}`, {method: 'DELETE'});
 }
