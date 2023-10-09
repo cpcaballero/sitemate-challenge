@@ -40,9 +40,13 @@ router.get('/', (req, res) => {
 }); 
 
 router.get('/:id', (req, res) => { 
-  res.json(issues.filter(
-    (issue) => issue.id === parseInt(req.params.id),
-  )); 
+  const data = readDataFromFile();
+  const item = data.find((item) => item.id === parseInt(req.params.id));
+  if (item) {
+    res.send(item);
+  } else {
+    res.status(404).send('Item not found.');
+  }
 }); 
 
 router.post('/', (req, res, next) => { 
@@ -58,19 +62,30 @@ router.post('/', (req, res, next) => {
 }); 
 
 router.delete('/:id', (req, res, next) => {
+  const data = readDataFromFile();
   const parsedId = parseInt(req.params.id);
-  const hasIssue = issues.some(
-    (issue) => issue.id === parsedId,
-  );
-  if (hasIssue) {
-    res.json({
+  const index = data.findIndex((item) => item.id === parsedId);
+  if (index !== -1) {
+    data.splice(index, 1);
+    saveDataToFile(data);
+    res.send({
       id: parsedId,
     });
+  } else {
+    res.status(404).send('Item not found.');
   }
 });
 
 router.put('/', (req, res, next) => { 
-  res.json(req.body);
+  const data = readDataFromFile();
+  const index = data.findIndex((item) => item.id === parseInt(req.params.id));
+  if (index !== -1) {
+    data[index] = req.body;
+    saveDataToFile(data);
+    res.send(req.body);
+  } else {
+    res.status(404).send('Item not found.');
+  }
 }); 
 
 
