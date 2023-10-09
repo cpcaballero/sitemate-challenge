@@ -24,7 +24,16 @@ router.get("/", (req, res) => {
 }); 
 
 router.post("/", (req, res, next) => { 
-  console.log(req.body);
+  res.json(req.body);
+}); 
+
+router.delete("/:id", (req, res, next) => {
+  res.json({
+    id: req.params.id,
+  });
+});
+
+router.put("/", (req, res, next) => { 
   res.json(req.body);
 }); 
 
